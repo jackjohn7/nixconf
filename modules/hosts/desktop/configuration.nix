@@ -2,8 +2,10 @@
 {
   flake.nixosModules.desktopConfiguration = {pkgs, lib, ... }: {
     imports =
-      [ # Include the results of the hardware scan.
+      [
         self.nixosModules.base
+        self.nixosModules.pipewire
+        self.nixosModules.fonts
         self.nixosModules.gaming
         self.nixosModules.development
         self.nixosModules.desktopHardware
