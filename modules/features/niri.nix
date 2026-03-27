@@ -82,6 +82,19 @@
           "Mod+Ctrl+WheelScrollDown".focus-workspace-down = null;
           "Mod+Ctrl+WheelScrollUp".focus-workspace-up = null;
         };
+
+        window-rules = [
+          {
+            geometry-corner-radius = 0;
+          }
+          {
+            matches = [
+              { app-id = "zed"; }
+            ];
+            default-column-width = { proportion = 1.0; };
+          }
+        ];
+
         workspaces = {
           "w0" = {};
           "w1" = {};
