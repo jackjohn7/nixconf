@@ -2,10 +2,10 @@
   "settings": {
     "settingsVersion": 57,
     "bar": {
-      "barType": "floating",
+      "barType": "simple",
       "position": "top",
       "monitors": [],
-      "density": "compact",
+      "density": "default",
       "showOutline": false,
       "showCapsule": true,
       "capsuleOpacity": 1,
@@ -14,9 +14,9 @@
       "contentPadding": 2,
       "fontScale": 1,
       "enableExclusionZoneInset": true,
-      "backgroundOpacity": 0.93,
-      "useSeparateOpacity": false,
-      "floating": true,
+      "backgroundOpacity": 0,
+      "useSeparateOpacity": true,
+      "floating": false,
       "marginVertical": 4,
       "marginHorizontal": 4,
       "frameThickness": 8,
@@ -252,7 +252,7 @@
       "fontFixedScale": 1,
       "tooltipsEnabled": true,
       "scrollbarAlwaysVisible": true,
-      "boxBorderEnabled": false,
+      "boxBorderEnabled": true,
       "panelBackgroundOpacity": 0.93,
       "translucentWidgets": false,
       "panelsAttachedToBar": true,
@@ -261,9 +261,9 @@
     },
     "location": {
       "name": "Tokyo",
-      "weatherEnabled": true,
+      "weatherEnabled": false,
       "weatherShowEffects": true,
-      "useFahrenheit": false,
+      "useFahrenheit": true,
       "use12hourFormat": false,
       "showWeekNumberInCalendar": false,
       "showCalendarEvents": true,
@@ -284,7 +284,7 @@
           "id": "calendar-month-card"
         },
         {
-          "enabled": true,
+          "enabled": false,
           "id": "weather-card"
         }
       ]
@@ -296,13 +296,13 @@
       "monitorDirectories": [],
       "enableMultiMonitorDirectories": false,
       "showHiddenFiles": false,
-      "viewMode": "single",
+      "viewMode": "browse",
       "setWallpaperOnAllMonitors": true,
       "fillMode": "crop",
       "fillColor": "#000000",
       "useSolidColor": false,
       "solidColor": "#1a1a2e",
-      "automationEnabled": false,
+      "automationEnabled": true,
       "wallpaperChangeMode": "random",
       "randomIntervalSec": 300,
       "transitionDuration": 1500,
@@ -690,7 +690,10 @@
     "barVisible": true,
     "openedPanel": "",
     "lockScreenActive": false,
-    "wallpapers": {},
+    "wallpapers": {
+      "DP-3": "/home/jingus/Pictures/Wallpapers/ship.jpeg",
+      "HDMI-A-1": "/home/jingus/Pictures/Wallpapers/ship.jpeg"
+    },
     "desktopWidgetsEditMode": false,
     "display": {
       "HDMI-A-1": {

@@ -1,6 +1,8 @@
 { self, inputs, ... }: {
   flake.nixosModules.base = { pkgs, lib, ... }: {
     imports = [ inputs.hjem.nixosModules.default ];
+
+    nixpkgs.overlays = [ inputs.millennium.overlays.default ];
     # Set your time zone.
     time.timeZone = "America/Chicago";
 
@@ -18,9 +20,6 @@
       LC_TELEPHONE = "en_US.UTF-8";
       LC_TIME = "en_US.UTF-8";
     };
-
-    services.xserver.displayManager.gdm.enable = true;
-    services.xserver.desktopManager.gnome.enable = true;
 
     # Enable the X11 windowing system.
     services.xserver.enable = true;

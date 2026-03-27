@@ -18,6 +18,10 @@
     programs.firefox.enable = true;
     programs.zsh.enable = true;
 
+    # Enable Gnome and GDM for login management and some decent default apps
+    services.displayManager.gdm.enable = true;
+    services.desktopManager.gnome.enable = true;
+
     # Allow unfree packages
     nixpkgs.config.allowUnfree = true;
 

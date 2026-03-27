@@ -4,6 +4,7 @@
       vim
       git
       zed-editor
+      opencode
     ];
   };
 }

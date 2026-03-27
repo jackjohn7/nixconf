@@ -1,6 +1,9 @@
 { self, inputs, ... }: {
   flake.nixosModules.niri = { pkgs, lib, config, ... }: {
-    imports = [ self.nixosModules.cursors ];
+    imports = [
+      self.nixosModules.cursors
+      self.nixosModules.wallpapers
+    ];
 
     options.niri-users = lib.mkOption {
       type = lib.types.listOf lib.types.str;
@@ -16,9 +19,12 @@
 
       # Enable cursors for niri users
       cursor-users = lib.mkDefault config.niri-users;
+
+      # Set wallpaper destination explicitly
+      wallpaper-destination = "Pictures/Wallpapers";
     };
   };
-  
+
   perSystem = { pkgs, lib, self', ... }: {
     packages.myNiri = inputs.wrapper-modules.wrappers.niri.wrap {
       inherit pkgs;
@@ -33,7 +39,12 @@
         };
 
         layout = {
-          gaps = 10;
+          gaps = 20;
+        };
+
+        cursor = {
+          xcursor-theme = "Bibata-Modern-Ice";
+          xcursor-size = 24;
         };
 
         binds = {
