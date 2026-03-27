@@ -31,6 +31,7 @@
       vesktop
       pavucontrol
       keepassxc
+      amberol
     ];
 
     nix.settings.experimental-features = [ "nix-command" "flakes" ];
