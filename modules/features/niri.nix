@@ -39,7 +39,7 @@
         };
 
         layout = {
-          gaps = 20;
+          gaps = 24;
         };
 
         cursor = {
