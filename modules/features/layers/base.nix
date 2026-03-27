@@ -1,5 +1,6 @@
 { self, inputs, ... }: {
   flake.nixosModules.base = { pkgs, lib, ... }: {
+    imports = [ inputs.hjem.nixosModules.default ];
     # Set your time zone.
     time.timeZone = "America/Chicago";
 

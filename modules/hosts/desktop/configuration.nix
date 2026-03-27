@@ -11,6 +11,8 @@
         self.nixosModules.desktopHardware
         self.nixosModules.niri
         self.nixosModules.librewolf
+        self.nixosModules.user
+        self.nixosModules.user-jingus
       ];
 
     programs.firefox.enable = true;

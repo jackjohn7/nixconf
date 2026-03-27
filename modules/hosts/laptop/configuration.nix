@@ -9,6 +9,8 @@
         self.nixosModules.pipewire
         self.nixosModules.development
         self.nixosModules.librewolf
+        self.nixosModules.hyprland
+        self.nixosModules.user-jingo
       ];
 
     # Bootloader.
@@ -80,7 +82,6 @@
     #   enable = true;
     #   enableSSHSupport = true;
     # };
-    programs.hyprland.enable = true;
 
     virtualisation.docker.enable = true;
     # enable emulation for ARM (for cross-compiling for RaspberryPi)

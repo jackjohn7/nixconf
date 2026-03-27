@@ -1,10 +1,24 @@
 { self, inputs, ... }: {
-  flake.nixosModules.niri = { pkgs, lib, ... }: {
-    programs.niri = {
-      enable = true;
-      package = self.packages.${pkgs.stdenv.hostPlatform.system}.myNiri;
+  flake.nixosModules.niri = { pkgs, lib, config, ... }: {
+    imports = [ self.nixosModules.cursors ];
+
+    options.niri-users = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
+      default = [];
+      description = "List of users to configure niri for";
+    };
+
+    config = {
+      programs.niri = {
+        enable = true;
+        package = self.packages.${pkgs.stdenv.hostPlatform.system}.myNiri;
+      };
+
+      # Enable cursors for niri users
+      cursor-users = lib.mkDefault config.niri-users;
     };
   };
+  
   perSystem = { pkgs, lib, self', ... }: {
     packages.myNiri = inputs.wrapper-modules.wrappers.niri.wrap {
       inherit pkgs;
