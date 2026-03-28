@@ -77,8 +77,8 @@
           "Mod+Shift+0".move-column-to-workspace = "w9";
 
           # Navigation
-          "Mod+WheelScrollDown".focus-column-left = null;
-          "Mod+WheelScrollUp".focus-column-right = null;
+          "Mod+WheelScrollDown".focus-column-right = null;
+          "Mod+WheelScrollUp".focus-column-left = null;
           "Mod+Ctrl+WheelScrollDown".focus-workspace-down = null;
           "Mod+Ctrl+WheelScrollUp".focus-workspace-up = null;
         };
