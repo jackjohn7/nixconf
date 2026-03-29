@@ -11,7 +11,7 @@
         self.nixosModules.development
         self.nixosModules.librewolf
         self.nixosModules.hyprland
-        self.nixosModules.user-jingo
+        self.nixosModules.user
       ];
 
       # Bootloader.
@@ -35,20 +35,6 @@
       services.xserver.xkb = {
         layout = "us";
         variant = "";
-      };
-
-      # Define a user account. Don't forget to set a password with ‘passwd’.
-      users.users.jingo = {
-        isNormalUser = true;
-        description = "j";
-        extraGroups = [
-          "networkmanager"
-          "wheel"
-          "docker"
-          "dialout"
-        ];
-        packages = with pkgs; [ ];
-        shell = pkgs.zsh;
       };
 
       # Allow unfree packages

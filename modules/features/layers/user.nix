@@ -1,20 +1,25 @@
-{ self, inputs, ... }:
+{
+  self,
+  inputs,
+  config,
+  ...
+}:
 {
   flake.nixosModules.user =
     { pkgs, lib, ... }:
     {
       # Define a user account. Don't forget to set a password with ‘passwd’.
-      users.users.jingus = {
+      users.users."${config.username}" = {
         isNormalUser = true;
-        description = "jingus";
+        description = "${config.username} user account";
         extraGroups = [
           "networkmanager"
           "wheel"
+          "docker"
+          "dialout"
         ];
         shell = pkgs.zsh;
-        packages = with pkgs; [
-          #  thunderbird
-        ];
       };
+      hjem.users."${config.username}".enable = true;
     };
 }

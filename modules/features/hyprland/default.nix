@@ -14,13 +14,8 @@
         self.nixosModules.wallpapers
       ];
 
-      options.hyprland-users = lib.mkOption {
-        type = lib.types.listOf lib.types.str;
-        default = [ ];
-        description = "List of users to configure hyprland for";
-      };
-
       config = {
+        wallpaper-destinations = [ "Pictures/wallpapers" ];
         # System-level configuration
         programs.hyprland.enable = true;
 
@@ -58,18 +53,13 @@
         };
 
         # Configure hjem for specified users
-        hjem = lib.mkIf (config.hyprland-users != [ ]) {
-          users = lib.genAttrs config.hyprland-users (username: {
-            enable = true;
-            files = {
-              ".config/hypr/hyprland.conf".source = ./hyprland.conf;
-              ".config/hypr/hyprpaper.conf".source = ./hyprpaper.conf;
-            };
-          });
+        hjem.users."${config.username}" = {
+          enable = true;
+          files = {
+            ".config/hypr/hyprland.conf".source = ./hyprland.conf;
+            ".config/hypr/hyprpaper.conf".source = ./hyprpaper.conf;
+          };
         };
-
-        # Enable cursors for hyprland users
-        cursor-users = lib.mkDefault config.hyprland-users;
       };
     };
 }

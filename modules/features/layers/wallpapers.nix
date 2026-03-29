@@ -8,29 +8,20 @@
       ...
     }:
     {
-
-      options.wallpaper-users = lib.mkOption {
+      options.wallpaper-destinations = lib.mkOption {
         type = lib.types.listOf lib.types.str;
-        default = [ ];
-        description = "List of users to include wallpapers for";
-      };
-
-      options.wallpaper-destination = lib.mkOption {
-        type = lib.types.str;
-        default = "Pictures/Wallpapers";
-        description = "Destination path for wallpapers";
+        default = [];
+        description = "Destination paths for wallpapers";
       };
 
       config = {
-        hjem = lib.mkIf (config.wallpaper-users != [ ]) {
-          users = lib.genAttrs config.wallpaper-users (username: {
-            enable = true;
-            files = {
-              "${config.wallpaper-destination}".source = pkgs.runCommand "wallpapers" { } ''
-                mkdir -p $out
-                cp -r ${../../../assets/wallpapers}/* $out/
-              '';
-            };
+        hjem.users."${config.username}" = {
+          enable = true;
+          files = lib.genAttrs config.wallpaper-destinations (_: {
+            source = pkgs.runCommand "wallpapers" { } ''
+              mkdir -p $out
+              cp -r ${../../../assets/wallpapers}/* $out/
+            '';
           });
         };
       };
