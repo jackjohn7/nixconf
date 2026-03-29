@@ -18,10 +18,15 @@
           users = lib.genAttrs config.hyprland-users (username: {
             enable = true;
             files = {
-              ".config/waybar/".source = pkgs.runCommand "waybar" { } ''
-                mkdir -p $out
-                cp -r ${./config}/* $out/
-              '';
+              ".config/waybar/config.jsonc".source = ./config/config.jsonc;
+              ".config/waybar/style.css".source = ./config/style.css;
+              ".config/waybar/power_menu.xml".source = ./config/power_menu.xml;
+              ".config/waybar/mediaplayer.py".source = ./config/mediaplayer.py;
+              ".config/waybar/icons/meson.build".source = ./config/icons/meson.build;
+              ".config/waybar/icons/waybar_icons.gresource.xml".source = ./config/icons/waybar_icons.gresource.xml;
+              ".config/waybar/icons/waybar-privacy-audio-input-symbolic.svg".source = ./config/icons/waybar-privacy-audio-input-symbolic.svg;
+              ".config/waybar/icons/waybar-privacy-audio-output-symbolic.svg".source = ./config/icons/waybar-privacy-audio-output-symbolic.svg;
+              ".config/waybar/icons/waybar-privacy-screen-share-symbolic.svg".source = ./config/icons/waybar-privacy-screen-share-symbolic.svg;
             };
           });
         };
