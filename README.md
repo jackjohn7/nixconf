@@ -14,7 +14,9 @@ without needing to spend an unemployable amount of time configuring things.
 
 ## Laptop
 
-*TBD*
+This config uses Hyprland with Waybar. Waybar is almost entirely stock with very few changes. I 
+have configured things to be rather boxy and simple despite it being hyprland. I haven't bothered
+with customizing animations and whatnot. Nearly everything is stock. Keeping it simple.
 
 ## Wallpapers
 
