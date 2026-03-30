@@ -1,4 +1,4 @@
-{ self, inputs, ... }:
+{ self, inputs, config, ... }:
 {
   flake.nixosModules.development =
     { pkgs, lib, ... }:
@@ -11,11 +11,14 @@
           opencode
           direnv
           nix-direnv
+          htop
         ];
         programs.zoxide = {
           enable = true;
           enableZshIntegration = true;
         };
+        # make ZSH shut up about zshrc
+        hjem.users.${config.username}.files.".zshrc".text = "";
         programs.zsh = {
           enable = true;
 

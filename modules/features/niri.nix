@@ -21,6 +21,14 @@
 
         # Set wallpaper destination explicitly
         wallpaper-destinations = [ "Pictures/Wallpapers" ];
+
+        xdg.mime.defaultApplications = {
+          "text/html" = "librewolf";
+          "x-scheme-handler/http" = "librewolf";
+          "x-scheme-handler/https" = "librewolf";
+          "x-scheme-handler/about" = "librewolf";
+          "x-scheme-handler/unknown" = "librewolf";
+        };
       };
     };
 
@@ -41,7 +49,19 @@
           ];
           xwayland-satellite.path = lib.getExe pkgs.xwayland-satellite;
           input.keyboard = {
-            xkb.layout = "us";
+            xkb = {
+              layout = "us";
+              options = "compose:ralt,ctrl:nocaps";
+            };
+          };
+
+          input.touchpad = {
+            tap = {};
+            natural-scroll = {};
+          };
+
+          "output \"eDP-1\"" = {
+            scale = 1.0;
           };
 
           layout = {
@@ -56,7 +76,7 @@
           binds = {
             "Mod+R".spawn-sh = "${lib.getExe self'.packages.myNoctalia} ipc call launcher toggle";
             "Mod+Shift+W".spawn-sh = "librewolf";
-            "Mod+Return".spawn-sh = lib.getExe pkgs.kitty;
+            "Mod+Return".spawn-sh = lib.getExe self'.packages.kitty;
             "Mod+Shift+C".close-window = null;
 
             # workspace binds
@@ -96,6 +116,8 @@
             {
               matches = [
                 { app-id = "zed"; }
+                { app-id = "librewolf"; }
+                { app-id = "vesktop"; }
               ];
               default-column-width = {
                 proportion = 1.0;

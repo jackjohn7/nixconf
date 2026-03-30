@@ -10,7 +10,8 @@
         self.nixosModules.pipewire
         self.nixosModules.development
         self.nixosModules.librewolf
-        self.nixosModules.hyprland
+        #self.nixosModules.hyprland
+        self.nixosModules.niri
         self.nixosModules.user
       ];
 
@@ -47,9 +48,8 @@
         fastfetch
         wget
         git
-        kitty
+        self.packages.${pkgs.stdenv.hostPlatform.system}.kitty
         wofi
-        firefox
         waybar
         wl-clipboard
         ripgrep
@@ -68,6 +68,7 @@
         gimp3
         chatterino7
         mumble
+        vesktop
         (element-desktop.override {
           commandLineArgs = "--password-store=gnome-libsecret";
         })
