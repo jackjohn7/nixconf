@@ -72,7 +72,6 @@
         (element-desktop.override {
           commandLineArgs = "--password-store=gnome-libsecret";
         })
-        self.packages.${pkgs.stdenv.hostPlatform.system}.ralph
       ];
 
       programs.zsh.enable = true;

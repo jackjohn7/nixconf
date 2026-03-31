@@ -12,6 +12,7 @@
           direnv
           nix-direnv
           htop
+          self.packages.${pkgs.stdenv.hostPlatform.system}.ralph
         ];
         programs.zoxide = {
           enable = true;
