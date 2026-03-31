@@ -17,6 +17,10 @@
           enable = true;
           enableZshIntegration = true;
         };
+        # enable Docker
+        virtualisation.docker = {
+          enable = true;
+        };
         # make ZSH shut up about zshrc
         hjem.users.${config.username}.files.".zshrc".text = "";
         programs.zsh = {
