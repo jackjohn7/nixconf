@@ -12,6 +12,7 @@
           direnv
           nix-direnv
           htop
+          dbeaver-bin
           self.packages.${pkgs.stdenv.hostPlatform.system}.ralph
         ];
         programs.zoxide = {
@@ -21,6 +22,10 @@
         # enable Docker
         virtualisation.docker = {
           enable = true;
+          rootless = {
+            enable = true;
+            setSocketVariable = true;
+          };
         };
         # make ZSH shut up about zshrc
         hjem.users.${config.username}.files.".zshrc".text = "";
