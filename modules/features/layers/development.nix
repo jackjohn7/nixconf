@@ -14,6 +14,7 @@
           htop
           dbeaver-bin
           self.packages.${pkgs.stdenv.hostPlatform.system}.ralph
+          self.packages.${pkgs.stdenv.hostPlatform.system}.t3code
         ];
         programs.zoxide = {
           enable = true;
