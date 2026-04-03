@@ -3,6 +3,10 @@
   flake.nixosModules.pipewire =
     { pkgs, lib, ... }:
     {
+      environment.systemPackages = with pkgs; [
+        pulseaudio # Provides pactl
+        wireplumber
+      ];
       # Enable sound with pipewire.
       services.pulseaudio.enable = false;
       security.rtkit.enable = true;

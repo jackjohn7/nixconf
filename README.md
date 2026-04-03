@@ -1,22 +1,22 @@
 # Nixconf
 
-Here lie all my configurations for my NixOS machines. I have begun migrating my laptop but haven't
-quite finished doing so.
+![Some screenshots of the config in use on my desktop](assets/screenshots/pan.webp)
+
+## Applications
+
+- Text Editor: [Zed](https://zed.dev)
+- Browser: [Librewolf](https://librewolf.net)
+- Terminal Emulator: [Kitty](https://sw.kovidgoyal.net/kitty/)
+- Music Player: [Amberol](https://apps.gnome.org/Amberol/)
+
+## Theme
+
+Currently just using [Catppuccin](https://catppuccin.com/) wherever possible. I'm using
+[Stylus](https://addons.mozilla.org/en-US/firefox/addon/styl-us/) and the
+[userstyles](https://userstyles.catppuccin.com/getting-started/introduction/) to style some web
+applications and sites like GitHub or YouTube.
 
 Bootstrapped and inspired by [Vimjoyer](https://youtu.be/aNgujRXDTdE).
-
-## Desktop
-
-This config uses Niri with the great Noctalia shell. The advantage of such a shell is that it 
-greatly reduces the amount I need to concern myself with making sure that colors are consistent or
-whatever other things Linux people care about. It also gives me a chance to try out Niri without
-without needing to spend an unemployable amount of time configuring things.
-
-## Laptop
-
-This config uses Hyprland with Waybar. Waybar is almost entirely stock with very few changes. I 
-have configured things to be rather boxy and simple despite it being hyprland. I haven't bothered
-with customizing animations and whatnot. Nearly everything is stock. Keeping it simple.
 
 ## Wallpapers
 
