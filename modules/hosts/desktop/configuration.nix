@@ -33,6 +33,9 @@
         pavucontrol
         keepassxc
         amberol
+        (element-desktop.override {
+          commandLineArgs = "--password-store=gnome-libsecret";
+        })
       ];
 
       nix.settings.experimental-features = [
