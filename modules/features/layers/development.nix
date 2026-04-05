@@ -9,6 +9,7 @@
           git
           zed-editor
           opencode
+          opencode-desktop
           direnv
           nix-direnv
           htop
