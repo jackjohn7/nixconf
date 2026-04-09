@@ -22,3 +22,14 @@ Bootstrapped and inspired by [Vimjoyer](https://youtu.be/aNgujRXDTdE).
 
 I made the Augustine wallpaper. Feel free to take it. The rest are all yoinked from various GitHub
 repositories.
+
+## Boilerplate
+
+Generate a new module with the following commands:
+
+```sh
+boilerplate host my-host
+boilerplate feature my-feature
+boilerplate layer my-layer
+boilerplate package my-package
+```
