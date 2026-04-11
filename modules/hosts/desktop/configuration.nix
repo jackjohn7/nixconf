@@ -11,6 +11,7 @@
         self.nixosModules.development
         self.nixosModules.desktopHardware
         self.nixosModules.niri
+        self.nixosModules.contentCreation
         # self.nixosModules.hyprland-noctalia
         self.nixosModules.librewolf
         self.nixosModules.user
