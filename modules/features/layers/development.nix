@@ -1,4 +1,9 @@
-{ self, inputs, config, ... }:
+{
+  self,
+  inputs,
+  config,
+  ...
+}:
 {
   flake.nixosModules.development =
     { pkgs, lib, ... }:
@@ -17,6 +22,7 @@
           zellij
           self.packages.${pkgs.stdenv.hostPlatform.system}.ralph
           self.packages.${pkgs.stdenv.hostPlatform.system}.t3code
+          self.packages.${pkgs.stdenv.hostPlatform.system}.plsfail
         ];
         programs.zoxide = {
           enable = true;
