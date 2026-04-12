@@ -1,0 +1,233 @@
+#!/usr/bin/env python3
+
+from __future__ import annotations
+
+import argparse
+import json
+import re
+import subprocess
+import sys
+import textwrap
+from pathlib import Path
+
+
+KIND_LAYOUTS = {
+    "layer": Path("nix-modules/features/layers"),
+    "feature": Path("nix-modules/features"),
+    "host": Path("nix-modules/hosts"),
+    "package": Path("nix-modules/packages"),
+}
+
+
+NAME_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_.-]*$")
+
+
+def nix_string(value: str) -> str:
+    return json.dumps(value)
+
+
+def git_root() -> Path | None:
+    result = subprocess.run(
+        ["git", "rev-parse", "--show-toplevel"],
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode != 0:
+        return None
+    return Path(result.stdout.strip())
+
+
+def host_templates(name: str) -> dict[Path, str]:
+    return {
+        Path("default.nix"):
+            textwrap.dedent(
+                f"""\
+                {{ self, inputs, ... }}:
+                {{
+                  flake.nixosConfigurations.{name} = inputs.nixpkgs.lib.nixosSystem {{
+                    modules = [
+                      self.nixosModules.{name}Configuration
+                    ];
+                  }};
+                }}
+                """
+            ),
+        Path("configuration.nix"):
+            textwrap.dedent(
+                f"""\
+                {{ self, inputs, ... }}:
+                {{
+                  flake.nixosModules.{name}Configuration =
+                    {{ pkgs, lib, ... }}:
+                    {{
+                      imports = [
+                        self.nixosModules.{name}Hardware
+                      ];
+                    }};
+                }}
+                """
+            ),
+        Path("hardware-configuration.nix"):
+            textwrap.dedent(
+                f"""\
+                {{ self, inputs, ... }}:
+                {{
+                  flake.nixosModules.{name}Hardware =
+                    {{ lib, pkgs, ... }}:
+                    {{
+                      config = {{
+                        # Copy the generated hardware configuration here.
+                      }};
+                    }};
+                }}
+                """
+            ),
+    }
+
+
+def template(kind: str, name: str) -> str:
+    if kind in {"layer", "feature"}:
+        return textwrap.dedent(
+            f"""\
+            {{ self, inputs, ... }}:
+            {{
+              flake.nixosModules.{name} = {{ pkgs, lib, ... }}:
+              {{
+                config = {{
+                }};
+              }};
+            }}
+            """
+        )
+
+    if kind == "host":
+        quoted_name = nix_string(name)
+        return textwrap.dedent(
+            f"""\
+            {{ self, inputs, ... }}:
+            {{
+              flake.nixosModules.{name} = {{ pkgs, lib, ... }}:
+              {{
+                config = {{
+                  networking.hostName = {quoted_name};
+                  # system.stateVersion = "25.11";
+                }};
+              }};
+
+              flake.nixosConfigurations.{name} = inputs.nixpkgs.lib.nixosSystem {{
+                modules = [
+                  self.nixosModules.{name}
+                ];
+              }};
+            }}
+            """
+        )
+
+    if kind == "package":
+        quoted_name = nix_string(name)
+        return textwrap.dedent(
+            f"""\
+            {{ self, inputs, ... }}:
+            {{
+              perSystem =
+                {{ pkgs, ... }}:
+                {{
+                  packages.{name} = pkgs.writeShellApplication {{
+                    name = {quoted_name};
+                    runtimeInputs = [ ];
+                    text = ''
+                      echo "TODO: implement {name}"
+                    '';
+                  }};
+                }};
+            }}
+            """
+        )
+
+    raise ValueError(f"Unsupported kind: {kind}")
+
+
+def planned_files(kind: str, name: str, multifile: bool) -> dict[Path, str]:
+    if kind == "host":
+        return host_templates(name)
+
+    target = Path("default.nix") if multifile else Path(f"{name}.nix")
+    return {target: template(kind, name)}
+
+
+def write_file(path: Path, content: str) -> None:
+    if path.exists():
+        raise FileExistsError(f"Refusing to overwrite existing path: {path}")
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(content.rstrip() + "\n", encoding="utf-8")
+
+
+def stage(paths: list[Path], root: Path) -> None:
+    subprocess.run(
+        ["git", "add", "--", *[str(path.relative_to(root)) for path in paths]],
+        check=True,
+        cwd=root,
+    )
+
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description="Generate Nix boilerplate modules")
+    parser.add_argument("kind", choices=sorted(KIND_LAYOUTS))
+    parser.add_argument("name")
+    parser.add_argument("--no-git-stage", action="store_true", help="Do not stage created files")
+    parser.add_argument("--dry-run", action="store_true", help="Print planned files without creating them")
+    parser.add_argument(
+        "--multifile",
+        action="store_true",
+        help="Create <name>/default.nix instead of <name>.nix",
+    )
+    return parser.parse_args()
+
+
+def main() -> int:
+    args = parse_args()
+
+    if not NAME_RE.fullmatch(args.name):
+        print(
+            "name must match ^[A-Za-z0-9][A-Za-z0-9_.-]*$",
+            file=sys.stderr,
+        )
+        return 2
+
+    root = git_root()
+    if root is None:
+        if args.dry_run or args.no_git_stage:
+            root = Path.cwd()
+        else:
+            print("not inside a git repository; use --no-git-stage", file=sys.stderr)
+            return 2
+
+    files = planned_files(args.kind, args.name, args.multifile)
+    base = root / KIND_LAYOUTS[args.kind]
+    target_base = base / args.name if args.kind == "host" else base
+    targets = [target_base / rel for rel in files]
+
+    if args.dry_run:
+        print("dry run: no files will be created")
+        for target in targets:
+            print(target.relative_to(root))
+        return 0
+
+    try:
+        for rel_path, content in files.items():
+            write_file(target_base / rel_path, content)
+    except FileExistsError as err:
+        print(err, file=sys.stderr)
+        return 1
+
+    if not args.no_git_stage:
+        stage(targets, root)
+
+    for target in targets:
+        print(target.relative_to(root))
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
