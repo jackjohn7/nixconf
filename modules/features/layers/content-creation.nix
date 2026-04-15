@@ -8,6 +8,8 @@
           audacity
           chatterino7
           spek
+          ffmpeg
+          flac
           (pkgs.wrapOBS {
             plugins = with pkgs.obs-studio-plugins; [
               wlrobs
