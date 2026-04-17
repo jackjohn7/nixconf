@@ -1,4 +1,10 @@
-{ self, inputs, ... }:
+{
+  self,
+  inputs,
+  hjem,
+  config,
+  ...
+}:
 {
   flake.nixosModules.librewolf =
     { pkgs, lib, ... }:
@@ -34,6 +40,26 @@
               installation_mode = "force_installed";
             };
           };
+        };
+      };
+
+      hjem.users."${config.username}" = {
+        xdg.mime-apps.default-applications = {
+          "text/html" = [
+            "librewolf.desktop"
+          ];
+          "x-scheme-handler/http" = [
+            "librewolf.desktop"
+          ];
+          "x-scheme-handler/https" = [
+            "librewolf.desktop"
+          ];
+          "x-scheme-handler/about" = [
+            "librewolf.desktop"
+          ];
+          "x-scheme-handler/unknown" = [
+            "librewolf.desktop"
+          ];
         };
       };
 

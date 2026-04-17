@@ -34,6 +34,7 @@
         pavucontrol
         keepassxc
         amberol
+        chromium
         (element-desktop.override {
           commandLineArgs = "--password-store=gnome-libsecret";
         })
