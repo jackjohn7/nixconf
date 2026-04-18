@@ -54,6 +54,14 @@
 
         # List services that you want to enable:
 
+        # Optimizations and garbage collection
+        nix.optimise.automatic = true;
+        nix.optimise.dates = [ "03:45" ];
+        nix.gc = {
+          automatic = true;
+          dates = "weekly";
+          options = "--delete-older-than 30d";
+        };
       };
 
     };
